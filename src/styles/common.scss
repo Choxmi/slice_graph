@@ -1,0 +1,10 @@
+$horizontalPadding: 3em;
+$verticalPadding: 1em;
+
+body {
+    padding-left: $horizontalPadding;
+    padding-right: $horizontalPadding;
+    padding-top: $verticalPadding;
+    padding-bottom: $verticalPadding;
+    margin: auto;
+}

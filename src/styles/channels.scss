@@ -1,0 +1,38 @@
+$defPadding: 1em;
+$borderRadius: 25px;
+
+.channel-container {
+    display: flex;
+    align-items: center;
+}
+
+.channel-title {
+    padding: $defPadding;
+    margin: 0
+}
+
+.channel-box {
+    display: flex;
+    flex: 1;
+    border: 1px solid #bfbfbf;
+    padding: calc($defPadding/2);
+}
+
+.channel-btn {
+    padding: calc($defPadding/4);
+    border: none;
+    border-radius: $borderRadius;
+    display: flex;
+    align-items: center;
+}
+
+.channel-close-btn {
+    padding: calc($defPadding/4);
+    margin: calc($defPadding/4);
+    background: none;
+    border: none;
+}
+
+.channel-add {
+    margin: calc($defPadding/4);
+}
