@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import SliceRange from "./sliceRange";
 
 const GraphArea = ({ graphs, slices }) => {
 
     const [MousePosition, setMousePosition] = useState(0);
+    const container = useRef();
 
     const BackgroundGrid = () => {
         return <table className="graph-grid">
@@ -11,21 +12,21 @@ const GraphArea = ({ graphs, slices }) => {
         </table>
     }
 
-    const Graph = ({ data }) => {
+    const Graph = ({ data, color }) => {
         let pointStr = "";
         data.forEach(dat => {
-            pointStr += `${(dat[1] - 10) * 1360},${dat[0] * 250} `
+            pointStr += `${(dat[1] - 10) * (container && container.current ? container.current.offsetWidth : 1360)},${dat[0] * 250} `
         });
-        return <svg width="1360" height="250">
-            <polyline fill="none" points={pointStr} stroke="black" />
+        return <svg className="graph-line">
+            <polyline fill="none" points={pointStr} stroke={color} />
         </svg>
     }
 
     const SlicedArea = ({ slice }) => {
-        const sliceWidth = ((slice.end - slice.start) * 1360) / 120;
-        const slideLeft = ((slice.start * 1360) / 120);
-        const startCorrection = sliceWidth * slice.min_start;
-        const endCorrection = sliceWidth * slice.min_end;
+        const sliceWidth = `${((slice.end - slice.start) / 120) * 100}%`;
+        const slideLeft = `${((slice.start / 120) * 100)}%`;
+        const startCorrection = `${((slice.start / 120) * 100) + ((slice.end - slice.start) * (slice.min_start/100))}%`;
+        const actualWidth = `${(((slice.end - slice.start) * ((slice.min_end - slice.min_start)/100))/120)*100}%`;
         return <>
             <div style={{
                 left: slideLeft, height: '250px',
@@ -33,8 +34,8 @@ const GraphArea = ({ graphs, slices }) => {
             }}>
             </div>
             <div style={{
-                left: slideLeft + startCorrection, height: '250px',
-                background: '#636363', opacity: 0.8, top: 0, position: 'absolute', width: sliceWidth - endCorrection - startCorrection
+                left: startCorrection, height: '250px',
+                background: '#636363', opacity: 0.8, top: 0, position: 'absolute', width: actualWidth
             }}>
             </div>
         </>
@@ -45,12 +46,12 @@ const GraphArea = ({ graphs, slices }) => {
             <p>1</p>
             <p>0</p>
         </div>
-        <div className="graph-content" onMouseMove={(ev) => {
+        <div className="graph-content" ref={container} onMouseMove={(ev) => {
             setMousePosition(ev.pageX);
         }}>
             <BackgroundGrid />
             <div className="graph-area">
-                {graphs.map((graph) => graph.active ? <Graph data={graph.data} /> : null)}
+                {graphs.map((graph) => graph.active ? <Graph color={graph.color} data={graph.data} /> : null)}
             </div>
             <SliceRange position={MousePosition} />
             {slices.map((slice) => <SlicedArea slice={slice} />)}

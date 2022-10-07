@@ -24,6 +24,7 @@ $borderRadius: 25px;
     border-radius: $borderRadius;
     display: flex;
     align-items: center;
+    padding-right: 10px;
 }
 
 .channel-close-btn {
@@ -31,8 +32,16 @@ $borderRadius: 25px;
     margin: calc($defPadding/4);
     background: none;
     border: none;
+    display: flex;
 }
 
 .channel-add {
     margin: calc($defPadding/4);
+}
+
+.channel-modal {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(99, 99, 99, 0.38);
+    position: absolute;
 }

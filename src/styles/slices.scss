@@ -4,5 +4,15 @@
     width: 100%;
     display: flex;
     border: none;
-    padding: 1em;
+    margin-top: 10px;
+}
+
+.slices-container {
+    margin-top: 20px;
+}
+
+.slices-input {
+    width: 18%;
+    display: flex;
+    align-items: center;
 }
